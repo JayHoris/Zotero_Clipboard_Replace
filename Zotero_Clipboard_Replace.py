@@ -30,7 +30,7 @@ while True:
                 last_txt = txt  # 没查到要替换的子串，返回None
                 transferred_tet = format_text_v3(txt)
                 pyperclip.copy(transferred_tet)
-            time.sleep(0.2)
+            time.sleep(0.02)
             # 检测间隔（延迟0.2秒）
     except:
         pass
