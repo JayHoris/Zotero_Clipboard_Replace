@@ -1,7 +1,6 @@
 import pyperclip
 import time
 
-
 def format_text_v3(original_text):
     # Splitting the text into components
     parts = original_text.split("” ")
@@ -16,23 +15,16 @@ def format_text_v3(original_text):
     print('Formatted!')
     return formatted_text
 
-
 last_txt = pyperclip.paste()
-transferred_tet = pyperclip.paste()
+transferred_text = pyperclip.paste()
 key_detect = "([pdf](zotero:"
 while True:
-    # txt 存放当前剪切板文本
-    txt = pyperclip.paste()
-    # 剪切板内容和上一次对比如有变动，再进行内容判断，判断后如果发现有指定字符在其中的话，再执行替换
+    time.sleep(0.5)  # Add a short delay to reduce CPU usage
     try:
-        if key_detect in txt:
-            if txt != last_txt or txt != transferred_tet:
-                last_txt = txt  # 没查到要替换的子串，返回None
-                transferred_tet = format_text_v3(txt)
-                pyperclip.copy(transferred_tet)
-            time.sleep(0.02)
-            # 检测间隔（延迟0.2秒）
-    except:
-        pass
-
-
+        txt = pyperclip.paste()  # Get current clipboard text
+        if key_detect in txt and txt != last_txt:
+            last_txt = txt  # Update last_txt
+            transferred_text = format_text_v3(txt)  # Process text
+            pyperclip.copy(transferred_text)  # Copy processed text to clipboard
+    except Exception as e:
+        print(f"An error occurred: {e}")  # Print exception details
