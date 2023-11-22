@@ -14,7 +14,7 @@ def format_text_v3(original_text):
     pdf_citations_links_formatted = pdf_citations_links + ")"
     # Formatting the final string
     formatted_text = f"{word}|{chinese_definition}|{citations_links_formatted}{pdf_citations_links_formatted}"
-    print('Formatted!')
+    print(word+' Formatted!')
     return formatted_text
 
 
