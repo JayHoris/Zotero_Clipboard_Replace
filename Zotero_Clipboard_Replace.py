@@ -7,6 +7,8 @@ import time
 is_paused = False
 is_word = True
 is_onlyOriginal = False
+is_once = True
+
 
 def format_zoteroword_markdown(original_text):
     # Splitting the text into components
@@ -20,6 +22,10 @@ def format_zoteroword_markdown(original_text):
     # Formatting the final string
     formatted_text = f"{word}|{chinese_definition}|{citations_links_formatted}{pdf_citations_links_formatted}"
     print(word+' Formatted!')
+    global is_onlyOriginal
+    if is_once:
+        is_onlyOriginal = True
+        print('Turn to OnlyOriginal')
     return formatted_text
 
 
@@ -33,8 +39,12 @@ def format_zoterosentence_markdown(original_text):
     citations_links_formatted = citations_links + ")"
     pdf_citations_links_formatted = pdf_citations_links + ")"
     # Formatting the final string
-    formatted_text = f"{sentence}\n{citations_links_formatted}{pdf_citations_links_formatted}\n{chinese_definition}"
+    formatted_text = f">{sentence}\n{citations_links_formatted}{pdf_citations_links_formatted}\n{chinese_definition}"
     print(sentence+' Formatted!')
+    global is_onlyOriginal
+    if is_once:
+        is_onlyOriginal = True
+        print('Turn to OnlyOriginal')
     return formatted_text
 
 
@@ -60,6 +70,11 @@ def toggle_onlyOriginal():
     print('OnlyOriginal' if is_onlyOriginal else 'NotOnlyOriginal')
 
 
+def toggle_once():
+    global is_once
+    is_once = not is_once
+    print('Once' if is_once else 'NotOnce')
+
 def main():
     last_txt = pyperclip.paste()
     transferred_text = pyperclip.paste()
@@ -68,10 +83,11 @@ def main():
     keyboard.add_hotkey('ctrl+9', toggle_pause)
     keyboard.add_hotkey('ctrl+8', toggle_word_sentence)
     keyboard.add_hotkey('ctrl+7', toggle_onlyOriginal)
+    keyboard.add_hotkey('ctrl+6', toggle_once)
 
     print('Start!')
     print('Press Ctrl+9 to pause/resume, and Ctrl+8 to switch word/sentence, and Ctrl+7 to switch onlyOriginal')
-    print('Now ,is_word is '+str(is_word)+', is_onlyOriginal is '+str(is_onlyOriginal)+', is_paused is '+str(is_paused))
+    print('Now ,is_word is '+str(is_word)+', is_onlyOriginal is '+str(is_onlyOriginal)+', is_paused is '+str(is_paused)+'is_once is '+str(is_once))
 
     while True:
         time.sleep(0.5)  # Add a short delay to reduce CPU usage
