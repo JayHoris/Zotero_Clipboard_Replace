@@ -75,19 +75,41 @@ def toggle_once():
     is_once = not is_once
     print('Once' if is_once else 'NotOnce')
 
-def main():
-    last_txt = pyperclip.paste()
-    transferred_text = pyperclip.paste()
-    key_detect = "([pdf](zotero:"
-    # 监听Ctrl+9按键
+
+def show_status():
+    print('Now ,is_word is '+str(is_word)+', is_onlyOriginal is '+str(is_onlyOriginal)+', is_paused is '+str(is_paused)+', is_once is '+str(is_once))
+
+
+def set_hotkeys():
     keyboard.add_hotkey('ctrl+9', toggle_pause)
     keyboard.add_hotkey('ctrl+8', toggle_word_sentence)
     keyboard.add_hotkey('ctrl+7', toggle_onlyOriginal)
     keyboard.add_hotkey('ctrl+6', toggle_once)
+    keyboard.add_hotkey('ctrl+0', show_status)
+    print('Hotkeys set!')
 
+
+def remove_hotkeys():
+    keyboard.remove_hotkey('ctrl+9')
+    keyboard.remove_hotkey('ctrl+8')
+    keyboard.remove_hotkey('ctrl+7')
+    keyboard.remove_hotkey('ctrl+6')
+    keyboard.remove_hotkey('ctrl+0')
+    print('Hotkeys removed!')
+
+
+def main():
+    last_txt = pyperclip.paste()
+    transferred_text = pyperclip.paste()
+    key_detect = "([pdf](zotero:"
+    recorded_time = time.time()
+    present_time = time.time()
+
+    set_hotkeys()
+    # 监听Ctrl+9按键
     print('Start!')
-    print('Press Ctrl+9 to pause/resume, and Ctrl+8 to switch word/sentence, and Ctrl+7 to switch onlyOriginal, and Ctrl+6 to switch once')
-    print('Now ,is_word is '+str(is_word)+', is_onlyOriginal is '+str(is_onlyOriginal)+', is_paused is '+str(is_paused)+', is_once is '+str(is_once))
+    print('Press Ctrl+9 to pause/resume, and Ctrl+8 to switch word/sentence, and Ctrl+7 to switch onlyOriginal, and Ctrl+6 to switch once, and Ctrl+0 to show status.')
+    show_status()
 
     while True:
         time.sleep(0.5)  # Add a short delay to reduce CPU usage
@@ -106,6 +128,14 @@ def main():
                 pyperclip.copy(transferred_text)  # Copy processed text to clipboard
         except Exception as e:
             print(f"An error occurred: {e}")  # Print exception details
+
+        if present_time - recorded_time < 60 * 10:
+            present_time = time.time()
+        else:
+            print('------------Restart Hotkey------------')
+            remove_hotkeys()
+            set_hotkeys()
+            recorded_time = time.time()
 
 
 if __name__ == "__main__":

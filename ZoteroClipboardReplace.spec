@@ -34,5 +34,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['F:\\JetBrains_PyCharm\\Zotero_Clipboard_Replace\\ico\\T.ico'],
+    icon=['ico\\T.ico'],
 )

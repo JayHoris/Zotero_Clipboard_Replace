@@ -1,0 +1,2 @@
+conda activate normal
+pyinstaller -F -i ico\T.ico ZoteroClipboardReplace.py
